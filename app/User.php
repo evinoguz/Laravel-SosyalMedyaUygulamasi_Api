@@ -14,9 +14,9 @@ class User extends Authenticatable
      * The attributes that are mass assignable.
      *
      * @var array
-     */klklll
+     */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password','birth_day','gender','phone_number'
     ];
 
     /**
@@ -36,4 +36,5 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
 }
