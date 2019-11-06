@@ -40,5 +40,8 @@ class User extends Authenticatable
     public function getPosts(){
         return $this->hasMany('app\Models\PostsModel','user_id','id');
     }
+    public function getMessages(){
+        return $this->hasMany('app\Models\MessagesModel','user_id','id');
+    }
 
 }
