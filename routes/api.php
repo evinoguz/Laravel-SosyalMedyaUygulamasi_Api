@@ -22,21 +22,22 @@ use Illuminate\Http\Request;
 Route::group(['middleware' => 'api'], function () {
 
     Route::group(['prefix' => 'auth'], function () {
-        Route::get('profile/{id}','Api\ProfileController@profile');
-        Route::post('post','Api\PostController@post');
-        Route::get('follow_follower','Api\Follow_FollowerController@follow_follower');
+
 
     });
 
     Route::group(['prefix' => 'profile'], function () {
+        Route::get('profile/{id}','Api\ProfileController@profile');
 
     });
 
     Route::group(['prefix' => 'post'], function () {
+        Route::post('post','Api\PostController@post');
 
     });
 
     Route::group(['prefix' => 'follow_follower'], function () {
+        Route::get('follow_follower','Api\Follow_FollowerController@follow_follower');
 
     });
 
