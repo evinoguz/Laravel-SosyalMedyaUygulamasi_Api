@@ -14,6 +14,9 @@
       <phar pharPath="$PROJECT_DIR$/composer.phar" interpreterId="7ea203ab-2b54-437b-8a8c-36c674730163" />
     </execution>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="PhpWorkspaceProjectConfiguration">
     <include_path>
       <path value="$PROJECT_DIR$/vendor/vlucas/phpdotenv" />
@@ -106,7 +109,7 @@
   <component name="ProjectId" id="1SvTVmB5g71N8Z5Sfw3Gq4z5cPL" />
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../deneme" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="reference.webide.settings.project.settings.php.zend.framework.tool" />
   </component>
