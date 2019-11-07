@@ -90,6 +90,7 @@ class PostController extends Controller
             $post->contents=$request->contens;
             $post->tag_friends=$request->tag_friends;
             $post->location=$request->location;
+            $post->save();
             return Response()->json([
                 'id'=>$request->id,
                 'user_id'=>$request->$user->id,
@@ -97,6 +98,12 @@ class PostController extends Controller
                 'contents'=>$request->contents,
                 'tag_friends'=>$request->tag_friends,
                 'location'=>$request->loction,
+            ]);
+        }
+        else
+        {
+            return Response()->json([
+               'message'=>'Not active users',
             ]);
         }
     }

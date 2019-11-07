@@ -20,26 +20,27 @@ use Illuminate\Http\Request;
 
 
 Route::group(['middleware' => 'api'], function () {
-
     Route::group(['prefix' => 'auth'], function () {
 
 
     });
 
     Route::group(['prefix' => 'profile'], function () {
-        Route::post('profile','Api\ProfileController@create');
+        Route::get('/profile','Api\ProfileController@getprofile');
+        Route::get('/profile_edit','Api\ProfileController@edit_profile');
+
 
     });
 
     Route::group(['prefix' => 'post'], function () {
-        Route::post('post','Api\PostController@create');
-        Route::get('remove','Api\PostController@remove');
-        Route::post('updatePost','Api\PostController@updatePost');
+        Route::post('/post','Api\PostController@create');
+        Route::get('/remove','Api\PostController@remove');
+        Route::post('/updatePost','Api\PostController@updatePost');
 
     });
 
     Route::group(['prefix' => 'follow_follower'], function () {
-        Route::get('follow_follower','Api\Follow_FollowerController@follow_follower');
+        Route::get('/follow_follower','Api\Follow_FollowerController@follow_follower');
 
     });
 
