@@ -17,7 +17,7 @@ class CreatePostsTable extends Migration
             $table->bigIncrements('id');
             $table->integer('user_id');
             $table->text('img_url');
-            $table->text('contents');
+            $table->text('content');
             $table->string('tag_friends');
             $table->string('location');
             $table->timestamps();

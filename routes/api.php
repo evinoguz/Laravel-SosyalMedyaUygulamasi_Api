@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 |
 */
 
+<<<<<<< HEAD
 //Route::middleware('auth:api')->get('/user', function (Request $request) {
 //    return $request->user();
 //
@@ -63,6 +64,10 @@ Route::group(['middleware' => 'api'], function () {
         Route::post('delete_comment/{id}','Api\CommentController@delete');
         Route::post('update_comment/{id}','Api\CommentController@updateComment');
     });
+=======
+Route::middleware('auth:api')->get('/user', function (Request $request) {
+    return $request->user();
+>>>>>>> 7c4b84da3d681972a2a132b67944341047d2e528
 
 });
 
