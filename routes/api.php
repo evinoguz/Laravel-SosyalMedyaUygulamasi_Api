@@ -27,7 +27,11 @@ Route::group(['middleware' => 'api'], function () {
     });
 
     Route::group(['prefix' => 'profile'], function () {
+<<<<<<< HEAD
         Route::get('/profile','Api\ProfileController@get_profile');
+=======
+        Route::get('/profile','Api\ProfileController@getprofile');
+>>>>>>> 57e25796a65169cf23ebc3950b07a07a95887530
         Route::get('/profile_edit','Api\ProfileController@edit_profile');
 
 
@@ -41,25 +45,37 @@ Route::group(['middleware' => 'api'], function () {
     });
 
     Route::group(['prefix' => 'follow_follower'], function () {
+<<<<<<< HEAD
         Route::get('/follow_follower','Api\Follow_FollowerController@create');
         Route::get('/remove_follow_follower','Api\Follow_FollowerController@remove');
+=======
+        Route::get('/follow_follower','Api\Follow_FollowerController@follow_follower');
+>>>>>>> 57e25796a65169cf23ebc3950b07a07a95887530
 
     });
 
     Route::group(['prefix' => 'message'], function () {
-
+        Route::post('/message', 'Api\MessageController@create_message');
+        Route::post('/remove_message', 'Api\MessageController@remove_message');
+        Route::post('/get_message', 'Api\MessageController@get_message');
     });
 
     Route::group(['prefix' => 'like'], function () {
-
+        Route::post('create_like','Api\LikeController@create');
+        Route::get('get_likes','Api\LikeController@getLike');
+        Route::post('delete_like/{id}','Api\LikeController@delete');
     });
 
     Route::group(['prefix' => 'notification'], function () {
-
+        Route::post('/remove_notification', 'Api\NotificationController@remove_notification');
+        Route::post('/get_notification', 'Api\NotificationController@get_notification');
     });
 
     Route::group(['prefix' => 'comment'], function () {
-
+        Route::post('create_comment','Api\CommentController@create');
+        Route::get('get_comments','Api\CommentController@getComments');
+        Route::post('delete_comment/{id}','Api\CommentController@delete');
+        Route::post('update_comment/{id}','Api\CommentController@updateComment');
     });
 
 });
