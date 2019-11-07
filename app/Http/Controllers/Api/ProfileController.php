@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Validator;
 
 class ProfileController extends Controller
 {
-    public function getprofile(Request $request)
+    public function get_profile(Request $request)
     {
         $user=Auth::user();
         $profile=Profile::find($request->id);
@@ -47,6 +47,7 @@ class ProfileController extends Controller
             $profile->user_id=$user->id;
             $profile->img_url=$request->img_url;
             $profile->biography=$request->biography;
+            $profile->save();
 
             return Response()->json([
                 'id'=>$request->id,

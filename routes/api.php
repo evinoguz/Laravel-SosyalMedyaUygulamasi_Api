@@ -23,10 +23,11 @@ Route::group(['middleware' => 'api'], function () {
     Route::group(['prefix' => 'auth'], function () {
 
 
+
     });
 
     Route::group(['prefix' => 'profile'], function () {
-        Route::get('/profile','Api\ProfileController@getprofile');
+        Route::get('/profile','Api\ProfileController@get_profile');
         Route::get('/profile_edit','Api\ProfileController@edit_profile');
 
 

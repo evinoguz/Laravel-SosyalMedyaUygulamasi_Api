@@ -7,5 +7,12 @@ use Illuminate\Http\Request;
 
 class Follow_FollowerController extends Controller
 {
-    //
+    public function create(Request $request)
+    {
+
+    }
+    public function remove(Request $request)
+    {
+
+    }
 }
