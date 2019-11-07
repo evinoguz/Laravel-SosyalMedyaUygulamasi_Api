@@ -46,9 +46,9 @@ Route::group(['middleware' => 'api'], function () {
     });
 
     Route::group(['prefix' => 'message'], function () {
-        Route::post('/message', 'Auth\messageController@create_message');
-        Route::post('/remove_message', 'Auth\messageController@remove_message');
-        Route::post('/get_message', 'Auth\messageController@get_message');
+        Route::post('/message', 'Api\MessageController@create_message');
+        Route::post('/remove_message', 'Api\MessageController@remove_message');
+        Route::post('/get_message', 'Api\MessageController@get_message');
     });
 
     Route::group(['prefix' => 'like'], function () {
@@ -58,7 +58,8 @@ Route::group(['middleware' => 'api'], function () {
     });
 
     Route::group(['prefix' => 'notification'], function () {
-
+        Route::post('/remove_notification', 'Api\NotificationController@remove_notification');
+        Route::post('/get_notification', 'Api\NotificationController@get_notification');
     });
 
     Route::group(['prefix' => 'comment'], function () {
