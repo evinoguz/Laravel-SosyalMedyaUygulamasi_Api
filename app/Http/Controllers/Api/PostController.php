@@ -11,15 +11,22 @@ use App\User;
 use Illuminate\Support\Facades\Validator;
 class PostController extends Controller
 {
+    public function show(Request $request)
+    {
+        $user =auth('api')->user();
+        return $user;
+    }
+
     public function create(Request $request)
     {
-        $user = Auth::user();
+        $user =auth('api')->user();
+
         if ($user != null) {
             $validator = Validator::make($request->all(), [
                 'img_url'=>'required',
-//                'content'=>'',
-//                'tag_friends'=>'',
-//                'location'=>'',
+                'content'=>'',
+                'tag_friends'=>'',
+                'location'=>'',
             ]);
             if($validator->fails())
             {
@@ -33,49 +40,48 @@ class PostController extends Controller
                         $i.'.'.'messages'=>$value[0],
                     ];
                 }
-                return Response()->json([
+                return Response::json([
                     "result"=>"error",
                     "errors"=>$errors,
                 ]);
             }
 
             $post=new Post();
-           // $post->user_id=$user->id;
-            $post->user_id=$request->id;
+            $post->user_id=$user->id;
             $post->img_url=$request->img_url;
             $post->contents=$request->contents;
             $post->tag_friends=$request->tag_friends;
             $post->location=$request->location;
             $post->saveOrFail();
 
-            return Response()->json([
+            return Response::json([
                 "result" => "ok",
                 "message" => "Kayit Basarili",
             ]);
         }
-        return response()->json([
+        return Response::json([
             'error' => 'Unauthorised'
         ], 401);
-    }
+ }
 
     public function remove(Request $request)
     {
         $user=auth::user();
         if($user==null)
-            return Response()->json([
+            return Response::json([
                 'message'=>'Not active users',
             ],401);
         else
         {
             $post=Post::find($request->post_id);
             if($post==null)
-            return Response()->json([
+                return Response::json([
                 'message'=>'There is not post',
             ]);
             else
             {
                 $post->delete();
-                return Response()->json([
+                return Response::json([
                     'message'=>$request->post_id.'.'.'post has been deleted',
                 ]);
             }
@@ -92,7 +98,7 @@ class PostController extends Controller
             $post->tag_friends=$request->tag_friends;
             $post->location=$request->location;
             $post->save();
-            return Response()->json([
+            return Response::json([
                 'id'=>$request->id,
                 'user_id'=>$request->$user->id,
                 'img_url'=>$request->img_url,
@@ -103,7 +109,7 @@ class PostController extends Controller
         }
         else
         {
-            return Response()->json([
+            return Response::json([
                'message'=>'Not active users',
             ]);
         }

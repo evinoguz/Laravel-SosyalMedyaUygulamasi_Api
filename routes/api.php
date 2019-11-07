@@ -19,7 +19,7 @@ use Illuminate\Http\Request;
 //});
 Route::group(['middleware' => 'api'], function () {
     Route::group(['prefix' => 'auth'], function () {
-        Route::get('/login','Api\loginController@login');
+        Route::post('/login','Api\loginController@login');
         Route::post('/register','Api\RegisterController@register');
     });
     Route::group(['prefix' => 'profile'], function () {
@@ -31,6 +31,7 @@ Route::group(['middleware' => 'api'], function () {
         Route::post('/create','Api\PostController@create');
         Route::get('/remove','Api\PostController@remove');
         Route::post('/updatePost/{id}','Api\PostController@updatePost');
+        Route::post('/show','Api\PostController@show');
     });
     Route::group(['prefix' => 'follow_follower'], function () {
         Route::get('/follow_follower','Api\Follow_FollowerController@create');
