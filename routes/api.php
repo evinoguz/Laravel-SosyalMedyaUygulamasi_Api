@@ -13,7 +13,6 @@ use Illuminate\Http\Request;
 |
 */
 
-
 //Route::middleware('auth:api')->get('/user', function (Request $request) {
 //    return $request->user();
 //
@@ -21,26 +20,28 @@ use Illuminate\Http\Request;
 
 
 Route::group(['middleware' => 'api'], function () {
-
     Route::group(['prefix' => 'auth'], function () {
+
 
 
     });
 
     Route::group(['prefix' => 'profile'], function () {
-        Route::post('profile','Api\ProfileController@create');
+        Route::get('/profile','Api\ProfileController@getprofile');
+        Route::get('/profile_edit','Api\ProfileController@edit_profile');
+
 
     });
 
     Route::group(['prefix' => 'post'], function () {
-        Route::post('post','Api\PostController@create');
-        Route::get('remove','Api\PostController@remove');
-        Route::post('updatePost','Api\PostController@updatePost');
+        Route::post('/post','Api\PostController@create');
+        Route::get('/remove','Api\PostController@remove');
+        Route::post('/updatePost','Api\PostController@updatePost');
 
     });
 
     Route::group(['prefix' => 'follow_follower'], function () {
-        Route::get('follow_follower','Api\Follow_FollowerController@follow_follower');
+        Route::get('/follow_follower','Api\Follow_FollowerController@follow_follower');
 
     });
 
@@ -64,10 +65,6 @@ Route::group(['middleware' => 'api'], function () {
         Route::post('delete_comment/{id}','Api\CommentController@delete');
         Route::post('update_comment/{id}','Api\CommentController@updateComment');
     });
-=======
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
->>>>>>> 7c4b84da3d681972a2a132b67944341047d2e528
 
 });
 
