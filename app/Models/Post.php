@@ -11,8 +11,15 @@ class Post extends Model
     protected $fillable=[
         'user_id',
         'img_url',
-        'content',
+        'contents',
         'tag_friends',
         'location',
     ];
+    public function likes(){
+        return $this->hasMany('app\Models\Likes','post_id','id');
+    }
+    public function comment(){
+        return $this->hasMany('app\Models\Comments','post_id','id');
+    }
+
 }

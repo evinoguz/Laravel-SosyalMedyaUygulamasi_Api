@@ -27,12 +27,14 @@ Route::group(['middleware' => 'api'], function () {
     });
 
     Route::group(['prefix' => 'profile'], function () {
-        Route::get('profile/{id}','Api\ProfileController@profile');
+        Route::post('profile','Api\ProfileController@create');
 
     });
 
     Route::group(['prefix' => 'post'], function () {
-        Route::post('post','Api\PostController@post');
+        Route::post('post','Api\PostController@create');
+        Route::get('remove','Api\PostController@remove');
+        Route::post('updatePost','Api\PostController@updatePost');
 
     });
 
