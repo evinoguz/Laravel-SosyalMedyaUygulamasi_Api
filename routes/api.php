@@ -27,11 +27,8 @@ Route::group(['middleware' => 'api'], function () {
     });
 
     Route::group(['prefix' => 'profile'], function () {
-<<<<<<< HEAD
         Route::get('/profile','Api\ProfileController@get_profile');
-=======
         Route::get('/profile','Api\ProfileController@getprofile');
->>>>>>> 57e25796a65169cf23ebc3950b07a07a95887530
         Route::get('/profile_edit','Api\ProfileController@edit_profile');
 
 
@@ -45,12 +42,10 @@ Route::group(['middleware' => 'api'], function () {
     });
 
     Route::group(['prefix' => 'follow_follower'], function () {
-<<<<<<< HEAD
+
         Route::get('/follow_follower','Api\Follow_FollowerController@create');
         Route::get('/remove_follow_follower','Api\Follow_FollowerController@remove');
-=======
         Route::get('/follow_follower','Api\Follow_FollowerController@follow_follower');
->>>>>>> 57e25796a65169cf23ebc3950b07a07a95887530
 
     });
 
