@@ -48,7 +48,9 @@ Route::group(['middleware' => 'api'], function () {
     });
 
     Route::group(['prefix' => 'like'], function () {
-
+        Route::post('create_like','Api\LikeController@create');
+        Route::get('get_likes','Api\LikeController@getLike');
+        Route::post('delete_like/{id}','Api\LikeController@delete');
     });
 
     Route::group(['prefix' => 'notification'], function () {
@@ -56,7 +58,10 @@ Route::group(['middleware' => 'api'], function () {
     });
 
     Route::group(['prefix' => 'comment'], function () {
-
+        Route::post('create_comment','Api\CommentController@create');
+        Route::get('get_comments','Api\CommentController@getComments');
+        Route::post('delete_comment/{id}','Api\CommentController@delete');
+        Route::post('update_comment/{id}','Api\CommentController@updateComment');
     });
 
 });
