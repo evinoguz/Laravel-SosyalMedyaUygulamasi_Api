@@ -41,7 +41,8 @@ Route::group(['middleware' => 'api'], function () {
     });
 
     Route::group(['prefix' => 'follow_follower'], function () {
-        Route::get('/follow_follower','Api\Follow_FollowerController@follow_follower');
+        Route::get('/follow_follower','Api\Follow_FollowerController@create');
+        Route::get('/remove_follow_follower','Api\Follow_FollowerController@remove');
 
     });
 
