@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 
 use App\Models\Message;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Response;
@@ -21,7 +22,7 @@ class MessageController extends Controller
             $message->user_id = $request->input('user_id');
             $message->message_content = $request->input('message_content');
             $message->save();
-            $notification=new \App\Models\Notification();
+            $notification=new Notification();
             $notification->whom_id = $message->whom_id;
             $notification->user_id = $message->user_id;
             $notification->notification_type = 'send you message';

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 
 class LikeController extends Controller
@@ -14,6 +15,11 @@ class LikeController extends Controller
             $like->post_id = $request->id;
             $like->user_id = $user->id;
             $like->save();
+            $notification=new Notification();
+            $notification->whom_id = $like->post_id;
+            $notification->user_id = $like->user_id;
+            $notification->notification_type = 'liked your post';
+            $notification->save();
             return response()->json([
                 'like'=>$like,
                 'user'=>$user
