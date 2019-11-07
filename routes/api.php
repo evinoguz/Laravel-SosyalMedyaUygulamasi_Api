@@ -46,7 +46,9 @@ Route::group(['middleware' => 'api'], function () {
     });
 
     Route::group(['prefix' => 'message'], function () {
-
+        Route::post('/message', 'Auth\messageController@create_message');
+        Route::post('/remove_message', 'Auth\messageController@remove_message');
+        Route::post('/get_message', 'Auth\messageController@get_message');
     });
 
     Route::group(['prefix' => 'like'], function () {
