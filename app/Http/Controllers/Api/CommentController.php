@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
@@ -24,8 +25,12 @@ class CommentController extends Controller
             $comment->user_id = $user->id;
             $comment->post_id = $request->post_id;
             $comment->comment_content = $request->comment_content;
-
             $comment->save();
+            $notification=new Notification();
+            $notification->whom_id = $comment->post_id;
+            $notification->user_id = $comment->user_id;
+            $notification->notification_type = 'commented on your page';
+            $notification->save();
             return response()->json([
                 'message'=>'comment was created',
                 'user'=>$user

@@ -14,4 +14,8 @@ class Message extends Model
         'message_content',
 
     ];
+    public function notification()
+    {
+        return $this->hasMany('App\Model\Notification', 'notification_type', 'id');
+    }
 }

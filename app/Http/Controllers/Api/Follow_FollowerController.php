@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Follow_Follower;
+use App\Models\Notification;
 use App\Models\Profile;
 use App\User;
 use Illuminate\Contracts\Support\Responsable;
@@ -25,6 +26,11 @@ class Follow_FollowerController extends Controller
                 $follow->follow_id=$user->id;
                 $follow->folower=$request->id;
                 $follow->save();
+                $notification=new Notification();
+                $notification->whom_id = $follow->follower_id;
+                $notification->user_id = $follow->follow_id;
+                $notification->notification_type = 'followed you';
+                $notification->save();
                 return Responsable()->json([
                     'Follow'=>$user->name,
                     'Follower'=>$request->id,
@@ -49,6 +55,11 @@ class Follow_FollowerController extends Controller
             else
             {
                 $follow->delete();
+                $notification=new Notification();
+                $notification->whom_id = $follow->follower_id;
+                $notification->user_id = $follow->follow_id;
+                $notification->notification_type = 'unfollowed you';
+                $notification->save();
             }
 
         }
