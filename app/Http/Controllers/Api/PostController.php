@@ -40,7 +40,8 @@ class PostController extends Controller
             }
 
             $post=new Post();
-            $post->user_id=$user->id;
+           // $post->user_id=$user->id;
+            $post->user_id=$request->id;
             $post->img_url=$request->img_url;
             $post->contents=$request->contents;
             $post->tag_friends=$request->tag_friends;
