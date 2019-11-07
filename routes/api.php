@@ -17,10 +17,10 @@ use Illuminate\Http\Request;
 //    return $request->user();
 //
 //});
-
-
 Route::group(['middleware' => 'api'], function () {
     Route::group(['prefix' => 'auth'], function () {
+        Route::get('/login','Api\loginController@login');
+        Route::get('/register','Api\RegisterController@register');
     });
     Route::group(['prefix' => 'profile'], function () {
         Route::get('/profile','Api\ProfileController@get_profile');
@@ -56,6 +56,4 @@ Route::group(['middleware' => 'api'], function () {
         Route::post('delete_comment/{id}','Api\CommentController@delete');
         Route::post('update_comment/{id}','Api\CommentController@updateComment');
     });
-
 });
-

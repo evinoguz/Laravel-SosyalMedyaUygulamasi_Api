@@ -38,10 +38,23 @@ class User extends Authenticatable
     ];
 
     public function getPosts(){
-        return $this->hasMany('app\Models\PostsModel','user_id','id');
+        return $this->hasMany('app\Models\Post','user_id','id');
     }
     public function getMessages(){
-        return $this->hasMany('app\Models\MessagesModel','user_id','id');
+        return $this->hasMany('app\Models\Message','user_id','id');
     }
+    public function getNotification(){
+        return $this->hasMany('app\Models\Notification','user_id','id');
+    }
+    public function getLikes(){
+        return $this->hasMany('app\Models\Likes','user_id','id');
+    }
+    public function getProfile(){
+        return $this->hasMany('app\Models\Profile','user_id','id');
+    }
+    public function getMessage(){
+        return $this->hasMany('app\Models\Message','user_id','id');
+    }
+
 
 }
