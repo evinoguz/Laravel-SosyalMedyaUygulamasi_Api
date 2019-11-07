@@ -55,9 +55,7 @@ class User extends Authenticatable
     public function getProfile(){
         return $this->hasMany('app\Models\Profile','user_id','id');
     }
-    public function getMessage(){
-        return $this->hasMany('app\Models\Message','user_id','id');
-    }
+
 
 
 }
