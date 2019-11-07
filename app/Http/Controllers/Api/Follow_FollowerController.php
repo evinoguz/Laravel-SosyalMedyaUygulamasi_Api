@@ -10,6 +10,7 @@ use App\User;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Response;
 
 class Follow_FollowerController extends Controller
 {
@@ -17,7 +18,7 @@ class Follow_FollowerController extends Controller
     {
         $user=Auth::user();
         if($user==null)
-            return Response()->json([
+            return Response::json([
                 'message'=>'Not active users',
             ]);
         else
@@ -31,7 +32,7 @@ class Follow_FollowerController extends Controller
                 $notification->user_id = $follow->follow_id;
                 $notification->notification_type = 'followed you';
                 $notification->save();
-                return Responsable()->json([
+                return Response::json([
                     'Follow'=>$user->name,
                     'Follower'=>$request->id,
                 ]);
@@ -42,14 +43,14 @@ class Follow_FollowerController extends Controller
     {
         $user=Auth::user();
         if($user==null)
-            return Response()->json([
+            return Response::json([
                 'message'=>'Not active users',
             ]);
         else
         {
             $follow=Follow_Follower::find($request->id);
             if($follow==null)
-                return Responsable()->json([
+                return Response::json([
                    'message'=>'You are not already following'
                 ]);
             else
