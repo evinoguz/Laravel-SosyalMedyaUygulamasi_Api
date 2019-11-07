@@ -12,4 +12,9 @@ class Likes extends Model
         'post_id',
         'user_id',
     ];
+
+    public function notification()
+    {
+        return $this->hasMany('App\Model\Notification', 'notification_type', 'id');
+    }
 }

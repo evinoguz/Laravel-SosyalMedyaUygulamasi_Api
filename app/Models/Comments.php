@@ -13,4 +13,8 @@ class Comments extends Model
         'user_id',
         'comment_content',
     ];
+    public function notification()
+    {
+        return $this->hasMany('App\Model\Notification', 'notification_type', 'id');
+    }
 }

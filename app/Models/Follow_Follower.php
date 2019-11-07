@@ -12,6 +12,10 @@ class Follow_Follower extends Model
         'follow_id',
         'follower_id',
     ];
+    public function notification()
+    {
+        return $this->hasMany('App\Model\Notification', 'notification_type', 'id');
+    }
 
 
 }
