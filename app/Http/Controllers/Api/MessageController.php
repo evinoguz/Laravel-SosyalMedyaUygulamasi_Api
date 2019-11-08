@@ -15,16 +15,16 @@ class MessageController extends Controller
     //
     public function create_message(Request $request)
     {
-        $user = Auth::user();
+        $user=Auth('api')->user();
         if($user!=null) {
             $message = new Message();
             $message->whom_id = $request->input('whom_id');
-            $message->user_id = $request->input('user_id');
+            $message->user_id = $user->id;
             $message->message_content = $request->input('message_content');
             $message->save();
             $notification=new Notification();
-            $notification->whom_id = $message->whom_id;
-            $notification->user_id = $message->user_id;
+            $notification->whom_id = $message->user_id;
+            $notification->user_id = $message->whom_id;
             $notification->notification_type = 'send you message';
             $notification->save();
             return Response::json([
@@ -42,14 +42,36 @@ class MessageController extends Controller
         }
     }
     public function remove_message(Request $request){
-        $user = Auth::user();
+
+        $user=Auth('api')->user();
         $message = Message::where('id', $request->id)->first();
         if($user!=null) {
-            $message->delete();
+            if($message->user_id==$user->id) {
+                $message->delete();
+                return response()->json([
+                    'message' => 'message removed',
+                    'mes' => $message,
+
+                ]);
+            }else{
+                return response()->json([
+                    'message' => 'message doesnt exist',
+                ]);
+            }
+        }
+        else{
+            return response()->json([
+                'error'=>'Unauthorised'
+            ]);
+        }
+    }
+
+    public function remove_all(){
+        $user=Auth('api')->user();
+        if($user!=null) {
+            $message = Message::where('user_id', $user->id)->delete();
             return response()->json([
                 'message' => 'message removed',
-                'to_whom'=>$message->whom_id,
-                'user' => $user
             ]);
         }
         else{
@@ -61,14 +83,11 @@ class MessageController extends Controller
 
     public function get_message(Request $request)
     {
-        $user = Auth::user();
-
-        $message = Message::where('id', $request->id)->first();
+        $user=Auth('api')->user();
+        $message = Message::where('user_id', $user->id)->get();
         if ($user != null) {
             return response()->json([
-                'message' => $message->message_content,
-                'user' => $user,
-                'to_whom' => $message->whom_id,
+                'message' => $message
             ]);
         } else {
             return response()->json([
