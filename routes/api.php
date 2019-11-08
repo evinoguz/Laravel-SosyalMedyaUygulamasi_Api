@@ -31,7 +31,7 @@ Route::group(['middleware' => 'api'], function () {
         Route::post('/create','Api\PostController@create');
         Route::get('/remove','Api\PostController@remove');
         Route::post('/updatePost/{id}','Api\PostController@updatePost');
-        Route::post('/show','Api\PostController@show');
+        Route::get('/showPost','Api\PostController@showPost');
     });
     Route::group(['prefix' => 'follow_follower'], function () {
         Route::get('/follow_follower','Api\Follow_FollowerController@create');

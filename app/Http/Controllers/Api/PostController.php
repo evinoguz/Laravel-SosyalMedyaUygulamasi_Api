@@ -11,11 +11,7 @@ use App\User;
 use Illuminate\Support\Facades\Validator;
 class PostController extends Controller
 {
-    public function show(Request $request)
-    {
-        $user =auth('api')->user();
-        return $user;
-    }
+
 
     public function create(Request $request)
     {
@@ -48,7 +44,12 @@ class PostController extends Controller
 
             $post=new Post();
             $post->user_id=$user->id;
-            $post->img_url=$request->img_url;
+            if($request->has('img_url')){
+                $file=$request->img_url;
+                $file->move(public_path().'/img/',$file->getClientOriginalName());
+                $post->img_url='/img/'.$file->getClientOriginalName();
+
+            }
             $post->contents=$request->contents;
             $post->tag_friends=$request->tag_friends;
             $post->location=$request->location;
@@ -62,11 +63,25 @@ class PostController extends Controller
         return Response::json([
             'error' => 'Unauthorised'
         ], 401);
- }
+     }
+
+
+    public function showPost(Request $request)
+    {
+        $user =auth('api')->user();
+        $post=Post::where('user_id',$user->id)->get();
+        if ($user != null)
+        {
+            return Response::json([
+               $post,
+            ],);
+        }
+    }
+
 
     public function remove(Request $request)
     {
-        $user=auth::user();
+        $user =auth('api')->user();
         if($user==null)
             return Response::json([
                 'message'=>'Not active users',
@@ -80,10 +95,19 @@ class PostController extends Controller
             ]);
             else
             {
+                if($post->user_id==$user->id)
+                {
                 $post->delete();
                 return Response::json([
                     'message'=>$request->post_id.'.'.'post has been deleted',
                 ]);
+                }
+                else
+                {
+                    return Response::json([
+                        'message'=>$request->post_id.'.'.'number post does not exist ',
+                    ]);
+                }
             }
         }
     }
@@ -104,7 +128,7 @@ class PostController extends Controller
                 'img_url'=>$request->img_url,
                 'contents'=>$request->contents,
                 'tag_friends'=>$request->tag_friends,
-                'location'=>$request->loction,
+                'location'=>$request->location,
             ]);
         }
         else
