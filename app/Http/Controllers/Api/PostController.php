@@ -112,30 +112,53 @@ class PostController extends Controller
         }
     }
     public function updatePost(Request $request){
-        $user= Auth::user();
-        if($user!=null){
-            $post = Post::find($request->post_id);
-            $post->id=$request->id;
-            $post->user_id=$request->$user->id;
-            $post->img_url=$request->img_url;
-            $post->contents=$request->contens;
-            $post->tag_friends=$request->tag_friends;
-            $post->location=$request->location;
-            $post->save();
+        $user =auth('api')->user();
+        if($user==null)
             return Response::json([
-                'id'=>$request->id,
-                'user_id'=>$request->$user->id,
-                'img_url'=>$request->img_url,
-                'contents'=>$request->contents,
-                'tag_friends'=>$request->tag_friends,
-                'location'=>$request->location,
-            ]);
-        }
+                'message'=>'Not active users',
+            ],401);
         else
         {
-            return Response::json([
-               'message'=>'Not active users',
-            ]);
+            $post=Post::find($request->post_id);
+            if($post==null)
+                return Response::json([
+                    'message'=>'There is not post',
+                ]);
+            else
+            {
+                if($post->user_id==$user->id)
+                {
+                    $post->user_id=$user->id;
+                    if($request->has('img_url')){
+                        if(file_exists(public_path().$post->img_url)){
+                            unlink(public_path().$post->img_url);
+                        }
+                        $post->delete();
+                        $file=$request->img_url;
+                        $file->move(public_path().'/img/',$file->getClientOriginalName());
+                        $post->img_url='/img/'.$file->getClientOriginalName();
+                    }
+                    $post->contents=$request->contents;
+                    $post->tag_friends=$request->tag_friends;
+                    $post->location=$request->location;
+                    $post->saveOrFail();
+
+                    return Response::json([
+                        "result" => "ok",
+                        "message" => "Kayit Güncellendi",
+                        $post,
+                    ]);
+                }
+                else
+                {
+                    return Response::json([
+                        'message'=>$request->post_id.'.'.'number post does not exist ',
+                    ]);
+                }
+            }
         }
+
+
+
     }
 }
