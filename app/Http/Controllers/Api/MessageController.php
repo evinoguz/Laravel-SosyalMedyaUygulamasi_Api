@@ -44,9 +44,9 @@ class MessageController extends Controller
     public function remove_message(Request $request){
 
         $user=Auth('api')->user();
-        $message = Message::where('id', $request->id)->first();
         if($user!=null) {
-            if($message->user_id==$user->id) {
+            $message = Message::where('id', $request->id)->first();
+            if($message!=null) {
                 $message->delete();
                 return response()->json([
                     'message' => 'message removed',
