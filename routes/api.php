@@ -23,19 +23,18 @@ Route::group(['middleware' => 'api'], function () {
         Route::post('/register','Api\RegisterController@register');
     });
     Route::group(['prefix' => 'profile'], function () {
-        Route::get('/profile','Api\ProfileController@get_profile');
-        Route::get('/profile','Api\ProfileController@getprofile');
-        Route::get('/profile_edit','Api\ProfileController@edit_profile');
+        Route::post('/create','Api\ProfileController@create');
+        Route::post('/updateProfile','Api\ProfileController@updateProfile');
     });
     Route::group(['prefix' => 'post'], function () {
         Route::post('/create','Api\PostController@create');
         Route::get('/remove','Api\PostController@remove');
-        Route::post('/updatePost/{id}','Api\PostController@updatePost');
+        Route::post('/updatePost','Api\PostController@updatePost');
         Route::get('/showPost','Api\PostController@showPost');
     });
     Route::group(['prefix' => 'follow_follower'], function () {
-        Route::get('/follow_follower','Api\Follow_FollowerController@create');
-        Route::get('/remove_follow_follower/{id}','Api\Follow_FollowerController@remove');
+        Route::post('/create','Api\Follow_FollowerController@create');
+        Route::get('/remove','Api\Follow_FollowerController@remove');
     });
     Route::group(['prefix' => 'message'], function () {
         Route::post('/message', 'Api\MessageController@create_message');
