@@ -11,7 +11,7 @@ class NotificationController extends Controller
 {
     //
     public function remove_notification(Request $request){
-        $user = Auth::user();
+        $user=Auth('api')->user();
         $notification = Notification::where('id', $request->id)->first();
         if($user!=null) {
             $notification->delete();
@@ -29,13 +29,12 @@ class NotificationController extends Controller
 
     public function get_notification(Request $request)
     {
-        $user = Auth::user();
+        $user=Auth('api')->user();
 
-        $notification = Notification::where('id', $request->id)->first();
+        $notification = Notification::where('user_id', $user->id)->get();
         if ($user != null) {
             return response()->json([
                 'message' => $notification,
-                'user' => $user,
             ]);
         } else {
             return response()->json([
