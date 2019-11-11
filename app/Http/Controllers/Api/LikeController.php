@@ -12,22 +12,31 @@ class LikeController extends Controller
 {
     public function create(Request $request){
         $user=Auth('api')->user();
-        if($user!=null){
-            $like = new Likes();
-            $like->post_id = $request->input('post_id');
-            $like->user_id = $user->id;
-            $like->save();
+        if($user!=null) {
+            $test=Likes::where('user_id', $user->id)->where('post_id', $request->post_id)->first();
+            if ($test==null) {
 
-            $post=Post::find($request)->first();
-            $notification=new Notification();
-            $notification->whom_id = $like->user_id;
-            $notification->user_id =$post->user_id;
-            $notification->notification_type = 'liked your post';
-            $notification->save();
-            return response()->json([
-                'like'=>$like,
-                'user'=>$user
-            ]);
+                $like=new Likes();
+                $like->post_id = $request->input('post_id');
+                $like->user_id = $user->id;
+                $like->save();
+
+                $post = Post::find($request)->first();
+                $notification = new Notification();
+                $notification->whom_id = $like->user_id;
+                $notification->user_id = $post->user_id;
+                $notification->notification_type = 'liked your post';
+                $notification->save();
+                return response()->json([
+                    'like' => $like,
+                    'user' => $user
+                ]);
+            }
+            else{
+                return response()->json([
+                    'message' =>'you already liked this post',
+                    ]);
+            }
         }
         return response()->json([
             'error'=>'Unauthorised'
