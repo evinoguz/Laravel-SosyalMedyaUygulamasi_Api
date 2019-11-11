@@ -3,14 +3,16 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Comments;
 use App\Models\Notification;
+use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class CommentController extends Controller
 {
     public function create(Request $request){
-        $user = Auth::user();
+        $user=Auth('api')->user();
         if($user!=null){
             $validator = Validator::make($request->all(),[
                 'post_id' => 'required',
@@ -22,19 +24,21 @@ class CommentController extends Controller
                 ], 401);
             }
 
-            $comment = new CommentsModel();
+            $comment = new Comments();
             $comment->user_id = $user->id;
             $comment->post_id = $request->post_id;
             $comment->comment_content = $request->comment_content;
             $comment->save();
+
+            $post=Post::find($request)->first();
             $notification=new Notification();
-            $notification->whom_id = $comment->post_id;
-            $notification->user_id = $comment->user_id;
-            $notification->notification_type = 'commented on your page';
+            $notification->whom_id = $comment->user_id;
+            $notification->user_id = $post->user_id;
+            $notification->notification_type = 'commented on your post';
             $notification->save();
             return response()->json([
                 'message'=>'comment was created',
-                'user'=>$user
+                'user'=>$user,
             ]);
         }
         return response()->json([
@@ -43,7 +47,7 @@ class CommentController extends Controller
     }
 
     public function getComments(Request $request){
-        $comments = CommentsModel::where('post_id',$request->post_id)->get();
+        $comments = Comments::where('post_id', $request->post_id)->get();
         if($comments!=null){
             return response()->json([
                 'comments'=>$comments,
@@ -56,9 +60,9 @@ class CommentController extends Controller
     }
 
     public function delete(Request $request){
-        $user = Auth::user();
+        $user=Auth('api')->user();
         if($user!=null){
-            $comment = CommentsModel::find($request->id);
+            $comment = Comments::find($request->id);
             if($comment!=null){
                 $comment->delete();
                 return response()->json([
@@ -79,7 +83,7 @@ class CommentController extends Controller
     }
 
     public function updateComment(Request $request){
-        $user = Auth::user();
+        $user=Auth('api')->user();
         if($user!=null){
             $validator = Validator::make($request->all(),[
                 'post_id' => 'required',
@@ -91,7 +95,7 @@ class CommentController extends Controller
                 ], 401);
             }
 
-            $comment = CommentsModel::find($request->id);
+            $comment = Comments::find($request->id);
             if($comment!=null){
                 $comment->user_id = $user->id;
                 $comment->post_id = $request->post_id;

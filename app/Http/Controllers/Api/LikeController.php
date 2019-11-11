@@ -3,21 +3,25 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Likes;
 use App\Models\Notification;
+use App\Models\Post;
 use Illuminate\Http\Request;
 
 class LikeController extends Controller
 {
     public function create(Request $request){
-        $user = Auth::user();
+        $user=Auth('api')->user();
         if($user!=null){
-            $like = new LikeModel();
-            $like->post_id = $request->id;
+            $like = new Likes();
+            $like->post_id = $request->input('post_id');
             $like->user_id = $user->id;
             $like->save();
+
+            $post=Post::find($request)->first();
             $notification=new Notification();
-            $notification->whom_id = $like->post_id;
-            $notification->user_id = $like->user_id;
+            $notification->whom_id = $like->user_id;
+            $notification->user_id =$post->user_id;
             $notification->notification_type = 'liked your post';
             $notification->save();
             return response()->json([
@@ -31,20 +35,20 @@ class LikeController extends Controller
     }
 
     public function getLike(Request $request){
-        $user = Auth::user();
+        $user=Auth('api')->user();
         if($user!=null){
-            $like = $like = LikeModel::where('post_id',$request->id)->where('user_id',$user->id)->first();
+            $like = Likes::where('user_id', $user->id)->get();
             if($like!=null){
                 return response()->json([
                     'message'=>'you liked this post',
                     'like'=>$like,
-                    'user'=>$user
+                    'user'=>$user,
                 ]);
             }
             else{
                 return response()->json([
                     'message'=>'you have no like at this post',
-                    'user'=>$user
+                    'user'=>$user,
                 ]);
             }
         }
@@ -54,9 +58,9 @@ class LikeController extends Controller
     }
 
     public function delete(Request $request){
-        $user = Auth::user();
+        $user=Auth('api')->user();
         if($user!=null){
-            $like = LikeModel::where('post_id',$request->id)->where('user_id',$user->id)->first();
+            $like = Likes::where('id', $request->id)->first();
             if($like !=null){
                 $like->delete();
                 return response()->json([
