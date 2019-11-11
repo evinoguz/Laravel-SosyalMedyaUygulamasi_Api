@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 
+use App\Models\Follow_Follower;
 use App\Models\Message;
 use App\Models\Notification;
 use Illuminate\Http\Request;
@@ -79,6 +80,31 @@ class MessageController extends Controller
                 'error'=>'Unauthorised'
             ]);
         }
+    }
+
+    public function remove_whom_all(Request $request){
+        $user =auth('api')->user();
+        if($user==null)
+            return Response::json([
+                'message'=>'Not active users',
+            ],401);
+        else
+        {
+            $message_true=Message::where('user_id',$user->id)->where('whom_id',$request->whom_id)->first();
+            if($message_true==null) {
+                return Response::json([
+                    'message'=>$request->follower_id.'.'.'follower does not exist ',
+                ]);
+            }
+            else
+            {
+                $message_true=Message::where('user_id',$user->id)->where('whom_id',$request->whom_id)->delete();
+                return Response::json([
+                    'message' => $request->whom_id . '.' . 'follower has been deleted',
+                ]);
+            }
+        }
+
     }
 
     public function get_message(Request $request)
