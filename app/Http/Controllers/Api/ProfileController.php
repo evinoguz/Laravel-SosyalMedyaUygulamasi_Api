@@ -42,6 +42,9 @@ class ProfileController extends Controller
             }
 
             $profile=new Profile();
+            $profile_true=Profile::where('user_id',$user->id)->first();
+            if($profile_true==null)
+            {
             $profile->user_id=$user->id;
             if($request->has('img_url')){
                 $file=$request->img_url;
@@ -55,6 +58,14 @@ class ProfileController extends Controller
                 "result" => "ok",
                 "message" => "Kayit Basarili",
             ]);
+            }
+            else
+            {
+                return Response::json([
+                    'message'=>'There are users',
+                ]);
+
+            }
         }
         return Response::json([
             'error' => 'Unauthorised'

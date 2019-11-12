@@ -40,6 +40,7 @@ Route::group(['middleware' => 'api'], function () {
         Route::post('/message', 'Api\MessageController@create_message');
         Route::post('/remove_message', 'Api\MessageController@remove_message');
         Route::post('/remove_all', 'Api\MessageController@remove_all');
+        Route::post('/remove_whom_all', 'Api\MessageController@remove_whom_all');
         Route::post('/get_message', 'Api\MessageController@get_message');
     });
     Route::group(['prefix' => 'like'], function () {
