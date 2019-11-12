@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Comments;
 use App\Models\Notification;
-use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -30,10 +29,9 @@ class CommentController extends Controller
             $comment->comment_content = $request->comment_content;
             $comment->save();
 
-            $post=Post::find($request)->first();
             $notification=new Notification();
             $notification->whom_id = $comment->user_id;
-            $notification->user_id = $post->user_id;
+            $notification->user_id = $comment->post_id;
             $notification->notification_type = 'commented on your post';
             $notification->save();
             return response()->json([

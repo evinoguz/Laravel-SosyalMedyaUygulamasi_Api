@@ -22,11 +22,20 @@ class LikeController extends Controller
                 $like->save();
 
                 $post = Post::find($request)->first();
-                $notification = new Notification();
-                $notification->whom_id = $like->user_id;
-                $notification->user_id = $post->user_id;
-                $notification->notification_type = 'liked your post';
-                $notification->save();
+
+                if($like->user_id!=$post->user_id) {
+                    $notification = new Notification();
+                    $notification->whom_id = $like->user_id;
+                    $notification->user_id = $post->user_id;
+                    $notification->notification_type = 'liked your post';
+                    $notification->save();
+                }
+                else{
+                    return response()->json([
+                        'message'=>'you liked your own picture'
+                    ]);
+                }
+
                 return response()->json([
                     'like' => $like,
                     'user' => $user
@@ -38,9 +47,11 @@ class LikeController extends Controller
                     ]);
             }
         }
-        return response()->json([
-            'error'=>'Unauthorised'
-        ], 401);
+        else {
+            return response()->json([
+                'error' => 'Unauthorised'
+            ], 401);
+        }
     }
 
     public function getLike(Request $request){
